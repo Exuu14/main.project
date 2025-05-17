@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street&Style.online.store.ph</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar">
+            <img src="images/logo.jpeg" style=" height:60px; border-radius: 30px  ;">
+            <div class="nav-items">
+                <a href="index.html">Home</a>
+                <a href="productM.html">Men</a>
+                <a href="productW.html">Women</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+    <!-- Products Section -->
+    <section id="productswomen" class="productswomen">
+
+       <center><h2>Women</h2> </center>,<br>
+        <div class="product-grid" id="product-grid">
+            <!-- Products will be dynamically added here -->
+        </div>
+         <div class="product-grid" id="product-grid">
+            <!-- Products will be dynamically added here -->
+              
+        </div>
+    </section>
+
+
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-total">
+            <p>Total: $<span id="cart-total-amount">0.00</span></p>
+            <button class="checkout-button">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>Street&Style, Create your own Style be unique.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="product.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: @Street&Style.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; S&S. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+// Sample product data
+const products = [
+    {
+        id: 1,
+        name: "Summer style jeans",
+        price: 20,
+        image: "images/haerin.jpg",
+
+    },
+    {
+        id: 2,
+        name: "Jump suit",
+        price: 14.99,
+        image: "images/karina.jpg",
+    },
+    {
+        id: 3,
+        name: "Crop top",
+        price: 5.45,
+        image : "images/mica.jpg",
+    },
+    {
+        id: 4,
+        name: "Gray & White top tank",
+        price: 7.59,
+        image :"images/hanni.jpg",
+    },
+    {
+        id: 5,
+        name: "Sweater set",
+        price: 15.54,
+        image :"images/momo.jpg",
+       },  
+       
+     {
+        id: 6,
+        name: "Polo for fine shyt",
+        price: 8.69,
+        image : "images/vanessa.jpg",
+       },
+
+       {
+        id: 5,
+        name: "Tambay cap",
+        price: 78,
+        image :"images/winter.jpg",
+       },  
+       {
+        id: 5,
+        name: "Cuddle sweater",
+        price: 7,
+        image :"images/chaewon.jpg",
+       },  
+       
+       
+];
+
+// Shopping cart functionality
+let cart = [];
+
+// DOM Elements
+const productGrid = document.getElementById('product-grid');
+const cartSidebar = document.getElementById('cart-sidebar');
+const cartItems = document.getElementById('cart-items');
+const cartCount = document.querySelector('.cart-count');
+const cartTotalAmount = document.getElementById('cart-total-amount');
+const cartIcon = document.querySelector('.cart-icon');
+const closeCartBtn = document.querySelector('.close-cart');
+
+// Display products
+function displayProducts() {
+    productGrid.innerHTML = products.map(product => `
+        <div class="product-card">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">${product.name}</h3>
+                <p class="product-price">$${product.price.toFixed(2)}</p>
+                <button class="add-to-cart" onclick="addToCart(${product.id})">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Add to cart functionality
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    const existingItem = cart.find(item => item.id === productId);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            ...product,
+            quantity: 1
+        });
+    }
+
+    updateCart();
+    showCart();
+}
+
+// Remove from cart functionality
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    updateCart();
+}
+
+// Update quantity functionality
+function updateQuantity(productId, newQuantity) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        if (newQuantity > 0) {
+            item.quantity = newQuantity;
+        } else {
+            removeFromCart(productId);
+        }
+        updateCart();
+    }
+}
+
+// Update cart display
+function updateCart() {
+    // Update cart items
+    cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-details">
+                <h4 class="cart-item-title">${item.name}</h4>
+                <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                    <input type="number" class="quantity-input" value="${item.quantity}" 
+                           onchange="updateQuantity(${item.id}, this.value)">
+                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                </div>
+            </div>
+            <button class="remove-item" onclick="removeFromCart(${item.id})">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `).join('');
+
+    // Update cart count
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartCount.textContent = totalItems;
+
+    // Update total amount
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    cartTotalAmount.textContent = total.toFixed(2);
+}
+
+// Show/hide cart sidebar
+function showCart() {
+    cartSidebar.classList.add('active');
+}
+
+function hideCart() {
+    cartSidebar.classList.remove('active');
+}
+
+// Event listeners
+cartIcon.addEventListener('click', showCart);
+closeCartBtn.addEventListener('click', hideCart);
+
+// Close cart when clicking outside
+document.addEventListener('inactive', (e) => {
+    if (!cartSidebar.contains(e.target) && !cartIcon.contains(e.target)) {
+        hideCart();
+    }
+});
+
+// Initialize the page
+displayProducts();
+updateCart(); 
+document.addEventListener('DOMContentLoaded', function() {
+            // Slider functionality
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const prevBtn = document.querySelector('.slider-prev');
+            const nextBtn = document.querySelector('.slider-next');
+            let currentSlide = 0;
+            
+            // Function to update the slider
+            function updateSlider() {
+                // Remove active class from all slides and dots
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Add active class to current slide and dot
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+            
+            // Next button click event
+            nextBtn.addEventListener('click', function() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlider();
+            });
+            
+            // Previous button click event
+            prevBtn.addEventListener('click', function() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateSlider();
+            });
+            
+            // Dot click events
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    currentSlide = index;
+                    updateSlider();
+                });
+            });
+            
+            // Auto-play slider
+            setInterval(function() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlider();
+            }, 3000); // Change slide every 5 seconds
+        });
+        
+ document.querySelector('.check-btn').addEventListener('click', () => {
+  if (cart.length === 0) {
+    alert('Your cart is empty!');
+    return;
+  }
+  
+  alert('Thank you for your purchase! Total: ₱' + cartTotal.toLocaleString());
+  cart = [];
+  updateCartDisplay();
+  updateCounter();
+  cartTab.classList.remove('active');
+  overlay.classList.remove('active');
+});
+
+
+    </script>
+</body>
+</html> 

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street&Style.online.store.ph</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar">
+            <img src="images/logo.jpeg" style=" height:60px; border-radius: 30px  ;">
+            <div class="nav-items">
+                <a href="index.html" >Home</a>
+                <a href="ProductM.html"> Men</a>
+                <a href="productW.html">Women</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="#">Login</a>
+            </div>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+
+      <!-- Image Slider -->
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide active">
+                    <img src="images/fashion.png" alt="Fashion collection">
+                    <div class="slide-caption">
+                        <h3>Summer Collection 2025</h3>
+                        <p>Explore our latest summer styles</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/newarrival.png" alt="New arrivals">
+                    <div class="slide-caption">
+                        <h3>New Arrivals</h3>
+                        <p>Check out what's trending this season</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/model1.jpg" alt="Special discount">
+                    <div class="slide-caption">
+                        <h3>Special Discounts</h3>
+                        <p>Up to 50% off on selected items</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/haerin.jpg" alt="Fashion model">
+                    <div class="slide-caption">
+                        <h3>Premium Brands</h3>
+                        <p>Discover our exclusive collections</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slider Navigation -->
+            <div class="slider-arrow slider-prev">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="slider-arrow slider-next">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+        
+        <div class="slider-nav">
+            <div class="slider-dot active"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+        </div>
+
+    <!-- Newsletter signup -->
+        <section class="newsletter">
+            <h3>Subscribe to Our Newsletter</h3>
+            <p>Get updates on new arrivals and special promotions!</p>
+            <form>
+                <input type="email" placeholder="Your email address">
+                <button type="submit">Subscribe</button>
+            </form>
+        </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-total">
+            <p>Total: $<span id="cart-total-amount">0.00</span></p>
+            <button class="checkout-button">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>Street&Style, Create your own Style be uniqu.</p>
+            </div>e
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: @Street&tyle.online.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; S&S. All rights reserved.</p>
+        </div>
+    </footer>
+ <!-- JavaScript for the slider -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Slider functionality
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const prevBtn = document.querySelector('.slider-prev');
+            const nextBtn = document.querySelector('.slider-next');
+            let currentSlide = 0;
+            
+            // Function to update the slider
+            function updateSlider() {
+                // Remove active class from all slides and dots
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Add active class to current slide and dot
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+            
+            // Next button click event
+            nextBtn.addEventListener('click', function() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlider();
+            });
+            
+            // Previous button click event
+            prevBtn.addEventListener('click', function() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateSlider();
+            });
+            
+            // Dot click events
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    currentSlide = index;
+                    updateSlider();
+                });
+            });
+            
+            // Auto-play slider
+            setInterval(function() {
+                currentSlide = (currentSlide + 5) % slides.length;
+                updateSlider();
+            }, 5000); // Change slide every 5 seconds
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html> 
